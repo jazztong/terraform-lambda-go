@@ -1,5 +1,5 @@
 resource "aws_api_gateway_rest_api" "api" {
-  name = "${local.app_id}-${random_id.unique_suffix.hex}"
+  name = local.app_id
 }
 
 resource "aws_api_gateway_resource" "proxy" {
@@ -55,8 +55,4 @@ resource "aws_lambda_permission" "lambda_permission" {
   function_name = aws_lambda_function.lambda_func.arn
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_deployment.api_deployment.execution_arn}/*/*"
-}
-
-output "api_url" {
-  value = aws_api_gateway_deployment.api_deployment.invoke_url
 }
